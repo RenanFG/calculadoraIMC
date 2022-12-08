@@ -24,15 +24,30 @@ export class HomePage {
   }
 
   async showIMC() {
+    const info = this.getIMCInfo(+this.imc.toFixed(2))
     const toast = await this.toastCtrl.create({
-      message: `IMC = ${this.imc.toFixed(2)}`,
+      message: `IMC = ${this.imc.toFixed(2)} - ${info.msg}`,
       duration: 3000,
-      color: 'secondary'
+      color: info.color
     })
     
     toast.present()
 
   }
 
+   getIMCInfo(imc : number){
+    if (imc > 40 ){
+      return {color: 'danger', msg: 'OBESIDADE GRAVE'}
+    } else if(imc >= 30){
+      return {color: 'danger', msg: 'OBESIDADE'}
+    } else if(imc >= 25){
+      return {color: 'warning', msg: 'SOBREPESO'}
+    }else if(imc >= 18.5){
+      return {color: 'success', msg: 'NORMAL'}
+    }else if( imc < 18.5){
+      return {color: 'secondary', msg: 'MAGREZA'}
+    }
 
+    return {color: 'primary', msg: 'Houve um erro ao calcular o IMC'}
+  }
 }
